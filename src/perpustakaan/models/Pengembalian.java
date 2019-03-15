@@ -14,8 +14,13 @@ import perpustakaan.DB;
  * @author asus
  */
 public class Pengembalian {
-    private int id_peminjaman;
-    private Date tgl_pengembalian;
+    private final int id_peminjaman;
+    private final Date tgl_pengembalian;
+
+    public Pengembalian(int id_peminjaman, Date tgl_pengembalian) {
+        this.id_peminjaman = id_peminjaman;
+        this.tgl_pengembalian = tgl_pengembalian;
+    }
     
     public static Pengembalian pengembalian(Peminjaman peminjaman) {
         try(Connection connection = DB.sql2o.open()) {
@@ -23,4 +28,21 @@ public class Pengembalian {
             return connection.createQuery(query).bind(peminjaman).executeAndFetchFirst(Pengembalian.class);
         }
     }
+    
+    public int insertPengembalian() {
+        try (Connection connection = DB.sql2o.open()) {
+            final String query = "INSERT INTO pengembalian VALUES (:id_peminjaman, :tgl_pengembalian)";
+            connection.createQuery(query).bind(this).executeUpdate();
+            return connection.getResult();
+        }
+    }
+
+    public int getId_peminjaman() {
+        return id_peminjaman;
+    }
+
+    public Date getTgl_pengembalian() {
+        return tgl_pengembalian;
+    }
+    
 }

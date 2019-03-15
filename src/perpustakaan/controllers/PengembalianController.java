@@ -17,11 +17,16 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.input.KeyCode;
@@ -29,9 +34,13 @@ import static perpustakaan.Format.DateFormat;
 import perpustakaan.models.Anggota;
 
 import static perpustakaan.models.Anggota.anggota;
+import perpustakaan.models.BayarDenda;
 import static perpustakaan.models.Buku.buku;
+import perpustakaan.models.Denda;
 import perpustakaan.models.Peminjaman;
 import static perpustakaan.models.Peminjaman.peminjamanNotReturnList;
+import perpustakaan.models.Pengembalian;
+import static perpustakaan.models.Denda.denda;
 
 public class PengembalianController implements Initializable{
 
@@ -84,6 +93,7 @@ public class PengembalianController implements Initializable{
     private Label totalBayarLabel;
 
     private final ObservableList<Peminjaman> peminjamanList = FXCollections.observableArrayList();
+    private int total_denda = 0;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -131,12 +141,49 @@ public class PengembalianController implements Initializable{
             keterlambatanLabel.setText("-");
             telatCheckbox.setSelected(false);
         }
+        simpanButton.setDisable(false);
+    }
+    
+    private boolean pengembalian() {
+        int id_peminjaman = peminjaman().getId_peminjaman();
+        Pengembalian pengembalian = new Pengembalian(id_peminjaman, new Date());
+        
+        if (pengembalian.insertPengembalian() > 0) {
+            if (telatCheckbox.isSelected()) {
+                Denda denda = denda(1);
+                
+                BayarDenda bayarDenda = new BayarDenda(id_peminjaman, denda, peminjaman().keterlambatan());
+                
+                if (bayarDenda.insertBayarDenda() > 0) hitungDenda(bayarDenda.getTotal_bayar());
+                else return false;
+            }
+            if (rusakCheckbox.isSelected()) {
+                Denda denda = denda(2);
+                
+                BayarDenda bayarDenda = new BayarDenda(id_peminjaman, denda);
+                
+                if (bayarDenda.insertBayarDenda() > 0) hitungDenda(bayarDenda.getTotal_bayar());
+                else return false;
+            }
+            if (hilangCheckbox.isSelected()) {
+                Denda denda = denda(3);
+                
+                BayarDenda bayarDenda = new BayarDenda(id_peminjaman, denda);
+                
+                if (bayarDenda.insertBayarDenda() > 0) hitungDenda(bayarDenda.getTotal_bayar());
+                else return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    private void hitungDenda(int total_denda) {
+        totalBayarLabel.setText(String.valueOf(this.total_denda += total_denda));
     }
     
     private void resetForm() {
-        peminjamanList.clear();
         idAnggotaField.setText("");
-        namaAnggotaLabel.setText("-");
         idPeminjamanLabel.setText("-");
         nomorBukuLabel.setText("-");
         judulBukuLabel.setText("-");
@@ -146,12 +193,26 @@ public class PengembalianController implements Initializable{
         telatCheckbox.setSelected(false);
         rusakCheckbox.setSelected(false);
         hilangCheckbox.setSelected(false);
-        totalBayarLabel.setText("-");
+        simpanButton.setDisable(true);
+        total_denda = 0;
     }
     
     @FXML
     void actionHandle(ActionEvent event) {
-
+        if (event.getSource() == simpanButton) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Pengembalian");
+            alert.setHeaderText("Simpan Pengembalian");
+            alert.setContentText("Anda yakin data pengembalian sudah benar?");
+            
+            Optional<ButtonType> optional = alert.showAndWait();
+            if (optional.isPresent() && optional.get() == ButtonType.OK) {
+                if (pengembalian()) {
+                    peminjamanList.remove(peminjaman());
+                    resetForm();
+                }
+            }
+        }
     }
 
     @FXML
@@ -168,10 +229,19 @@ public class PengembalianController implements Initializable{
             Anggota anggota = anggota(Integer.parseInt(idAnggotaField.getText()));
             
             resetForm();
+            peminjamanList.clear();
+            totalBayarLabel.setText("-");
             
             if (anggota != null) {
                 peminjamanList.setAll(peminjamanNotReturnList(anggota));
                 namaAnggotaLabel.setText(anggota.getNama_anggota());
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Peminjaman");
+                alert.setHeaderText("Error");
+                alert.setContentText("Data anggota tidak ada");
+                alert.show();
+                namaAnggotaLabel.setText("-");
             }
         }
     }

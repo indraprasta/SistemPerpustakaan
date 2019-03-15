@@ -10,6 +10,10 @@ import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import perpustakaan.models.Pustakawan;
+import static perpustakaan.models.Pustakawan.pustakawan;
 
 public class LoginController {
 
@@ -35,10 +39,28 @@ public class LoginController {
 
     @FXML
     void tekanLogin(ActionEvent event) throws IOException {
-        anchor.getChildren().clear();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
-        Parent parent = loader.load();
-        anchor.getChildren().add(parent);
+        Pustakawan pustakawan = pustakawan(username.getText());
+        
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Login");
+        alert.setHeaderText("Login Gagal");
+        
+        if (pustakawan != null) {
+            if (pustakawan.getPassword().equals(pass.getText())) {
+                anchor.getChildren().clear();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
+                Parent parent = loader.load();
+                anchor.getChildren().add(parent);         
+            } else {
+                alert.setContentText("Password salah");
+                alert.show();
+                pass.requestFocus();
+            }
+        } else {
+            alert.setContentText("Username tidak ditemukan");
+            alert.show();
+            username.requestFocus();
+        }
     }
 
 }
