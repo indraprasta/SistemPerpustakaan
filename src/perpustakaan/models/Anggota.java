@@ -39,6 +39,13 @@ public class Anggota extends RecursiveTreeObject<Anggota>{
             return connection.createQuery(query).bind(peminjaman).executeAndFetchFirst(Anggota.class);
         }
     }
+
+    public static Anggota anggota(int id_anggota) {
+        try(Connection connection = DB.sql2o.open()) {
+            final String query = "SELECT * FROM anggota WHERE id_anggota = :id_anggota";
+            return connection.createQuery(query).addParameter("id_anggota", id_anggota).executeAndFetchFirst(Anggota.class);
+        }
+    }
     
     public int createAnggota(){
         try (Connection connection = DB.sql2o.open()) {

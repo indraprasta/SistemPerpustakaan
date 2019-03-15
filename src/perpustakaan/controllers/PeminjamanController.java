@@ -60,7 +60,7 @@ public class PeminjamanController {
             
             Peminjaman ak = new Peminjaman(
                     Integer.valueOf(text_idanggota.getText()),
-                    Integer.valueOf(text_idbuku.getText()),
+                    text_idbuku.getText(),
                     new Date(),
                     expired.getTime()
             );

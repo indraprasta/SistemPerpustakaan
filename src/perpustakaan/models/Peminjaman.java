@@ -1,17 +1,23 @@
 package perpustakaan.models;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.util.Date;
+import java.util.List;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+import org.joda.time.ReadableInstant;
 import org.sql2o.Connection;
 import perpustakaan.DB;
+import static perpustakaan.models.Pengembalian.pengembalian;
 
-public class Peminjaman {
+public class Peminjaman extends RecursiveTreeObject<Peminjaman> {
     private int id_peminjaman;
     private int id_anggota;
-    private int nomor_buku;
+    private String nomor_buku;
     private Date tgl_peminjaman;
     private Date expired;
     
-    public Peminjaman(int anggotaid, int bukuid, Date tanggal, Date tglexpired){
+    public Peminjaman(int anggotaid, String bukuid, Date tanggal, Date tglexpired){
         this.id_anggota = anggotaid;
         this.nomor_buku = bukuid;
         this.tgl_peminjaman = tanggal;
@@ -25,6 +31,23 @@ public class Peminjaman {
             return connection.getResult();
         }
     }
+    
+    public static List<Peminjaman> peminjamanList(Anggota anggota) {
+        try(Connection connection = DB.sql2o.open()) {
+            final String query = "SELECT * FROM peminjaman WHERE id_anggota = :id_anggota";
+            return connection.createQuery(query).bind(anggota).executeAndFetch(Peminjaman.class);
+        }
+    }
+    
+    public static List<Peminjaman> peminjamanNotReturnList(Anggota anggota) {
+        List<Peminjaman> peminjamanList = peminjamanList(anggota);
+        peminjamanList.removeIf(peminjaman -> pengembalian(peminjaman) != null);
+        return peminjamanList;
+    }
+    
+    public int keterlambatan() {
+        return Days.daysBetween(new LocalDate(expired), new LocalDate(new Date())).getDays();
+    }
 
     public int getId_peminjaman() {
         return id_peminjaman;
@@ -34,7 +57,7 @@ public class Peminjaman {
         return id_anggota;
     }
 
-    public int getNomor_buku() {
+    public String getNomor_buku() {
         return nomor_buku;
     }
     
