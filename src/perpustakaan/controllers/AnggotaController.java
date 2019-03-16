@@ -2,6 +2,7 @@ package perpustakaan.controllers;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import perpustakaan.models.Anggota;
 import static perpustakaan.models.Anggota.getAnggotaList;
@@ -113,8 +114,6 @@ public class AnggotaController implements Initializable{
             alert2.show();
         }
     }
-    
-   
      
     @FXML
     void hapusAnggota(ActionEvent event) {
@@ -127,26 +126,22 @@ public class AnggotaController implements Initializable{
         Optional result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
             if(angg.deleteAnggota()>0){
-            Alert keluar = new Alert(AlertType.INFORMATION);
-            keluar.setTitle("Data Anggota");
-            keluar.setHeaderText(null);
-            anggotaList.remove(angg);
-            keluar.setContentText("data berhasil di hapus");
-            keluar.showAndWait();
-            resetForm();
-        } 
-        else {
-            alert.close();
+                Alert keluar = new Alert(AlertType.INFORMATION);
+                keluar.setTitle("Data Anggota");
+                keluar.setHeaderText(null);
+                anggotaList.remove(angg);
+                keluar.setContentText("data berhasil di hapus");
+                keluar.showAndWait();
+                resetForm();
+            } else {
+                alert.close();
+            }
         }
     }
-}
 
-     
-        
-    
     private boolean validasi(){
-    return !text_Namasiswa.getText().isEmpty() && !text_Kelas.getText().isEmpty();
-}
+        return !text_Namasiswa.getText().isEmpty() && !text_Kelas.getText().isEmpty();
+    }
 
     @FXML
     void simpanAnggota(ActionEvent event) {
@@ -178,7 +173,7 @@ public class AnggotaController implements Initializable{
     private void resetForm() {
         text_Namasiswa.setText("");
         text_Kelas.setText("");
-        }
+    }
     
     @FXML
     void batalAnggota(ActionEvent event) {
@@ -206,14 +201,14 @@ public class AnggotaController implements Initializable{
         };
         
         labeltask.setOnSucceeded(evt->{
-            Document document = new Document();
+            Document document = new Document(PageSize.A4);
             try {
                 PdfWriter.getInstance(document, new FileOutputStream("out/membercard.pdf"));
             } catch (FileNotFoundException | DocumentException ex) {
                 Logger.getLogger(AnggotaController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            document.setMargins(32f, 32f, 32f, 32f);
+            document.setMargins(12f, 12f, 12f, 12f);
             document.open();
                 
             try {

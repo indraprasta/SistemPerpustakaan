@@ -86,30 +86,30 @@ public class MemberCard {
         }
         
         // Header
-        PdfPCell hCell1 = new PdfPCell(new Phrase("SEKOLAH DASAR ISLAM TERPADU\nAL - HAMIDIYYAH",new Font(FontFamily.UNDEFINED, 10, Font.BOLD)));
+        PdfPCell hCell1 = new PdfPCell(new Phrase("SEKOLAH DASAR ISLAM TERPADU\nAL - HAMIDIYYAH",new Font(FontFamily.UNDEFINED, 14, Font.BOLD)));
         hCell1.setBorder(Rectangle.NO_BORDER);
         hCell1.setHorizontalAlignment(Element.ALIGN_CENTER);
         
-        PdfPCell hCell2 = new PdfPCell(new Phrase("Perum. Bambu Kuning Blok F7 Rt. 15/13 Bojonggede Timur kec. Bojonggede",new Font(FontFamily.UNDEFINED, 6, Font.NORMAL)));
+        PdfPCell hCell2 = new PdfPCell(new Phrase("Perum. Bambu Kuning Blok F7 Rt. 15/13 Bojonggede Timur kec. Bojonggede",new Font(FontFamily.UNDEFINED, 8, Font.NORMAL)));
         hCell2.setBorder(Rectangle.NO_BORDER);
         hCell2.setHorizontalAlignment(Element.ALIGN_CENTER);
         
-        PdfPCell hCell3 = new PdfPCell(new Phrase("Telp. 0877 7088 679",new Font(FontFamily.UNDEFINED, 6, Font.NORMAL)));
+        PdfPCell hCell3 = new PdfPCell(new Phrase("Telp. 0877 7088 679",new Font(FontFamily.UNDEFINED, 8, Font.NORMAL)));
         hCell3.setBorder(Rectangle.NO_BORDER);
         hCell3.setCellEvent(new CustomBorder(null, null, null, new SolidLine()));
         hCell3.setHorizontalAlignment(Element.ALIGN_CENTER);
         hCell3.setPadding(3f);
         
-        PdfPCell judulCell = new PdfPCell(new Phrase("KARTU PERPUSTAKAAN",new Font(FontFamily.UNDEFINED, 8, Font.BOLD)));
+        PdfPCell judulCell = new PdfPCell(new Phrase("KARTU PERPUSTAKAAN",new Font(FontFamily.UNDEFINED, 10, Font.BOLD)));
         judulCell.setBorder(Rectangle.NO_BORDER);
         judulCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         judulCell.setPadding(10f);
         
         //Biodata
-        PdfPCell namaLabel = new PdfPCell(new Phrase("Nama", new Font(FontFamily.UNDEFINED, 8, Font.NORMAL)));
-        PdfPCell nama = new PdfPCell(new Phrase(anggota.getNama_anggota(), new Font(FontFamily.UNDEFINED, 8, Font.NORMAL)));
-        PdfPCell kelasLabel = new PdfPCell(new Phrase("Kelas", new Font(FontFamily.UNDEFINED, 8, Font.NORMAL)));
-        PdfPCell kelas = new PdfPCell(new Phrase(anggota.getKelas(), new Font(FontFamily.UNDEFINED, 8, Font.NORMAL)));
+        PdfPCell namaLabel = new PdfPCell(new Phrase("Nama", new Font(FontFamily.UNDEFINED, 12, Font.NORMAL)));
+        PdfPCell nama = new PdfPCell(new Phrase(anggota.getNama_anggota(), new Font(FontFamily.UNDEFINED, 12, Font.NORMAL)));
+        PdfPCell kelasLabel = new PdfPCell(new Phrase("Kelas", new Font(FontFamily.UNDEFINED, 12, Font.NORMAL)));
+        PdfPCell kelas = new PdfPCell(new Phrase(anggota.getKelas(), new Font(FontFamily.UNDEFINED, 12, Font.NORMAL)));
         
         namaLabel.setBorder(Rectangle.NO_BORDER);
         nama.setBorder(Rectangle.NO_BORDER);
@@ -126,7 +126,7 @@ public class MemberCard {
         
         //QR Code
         Image image = Image.getInstance(createQRCode(String.valueOf(anggota.getId_anggota())));
-        image.scaleToFit(50, 50);
+        image.scaleToFit(60, 60);
         PdfPCell imageCell = new PdfPCell(image);
         imageCell.setBorder(Rectangle.NO_BORDER);
         imageCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -146,7 +146,7 @@ public class MemberCard {
         
         //Cell Card
         PdfPCell cardCell = new PdfPCell(card);
-        cardCell.setPadding(10);
+        cardCell.setPadding(20);
 
         //Masukkan label ke dalam layout halaman
         layout.addCell(cardCell);

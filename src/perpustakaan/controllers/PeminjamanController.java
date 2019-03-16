@@ -82,6 +82,9 @@ public class PeminjamanController {
                                 DateFormat(ak.getExpired())
                         ));
                         alert.show();
+                        text_idanggota.requestFocus();
+                        text_idanggota.setText("");
+                        text_idbuku.setText("");
                     }
                 } else {
                     alert.setContentText("Nomor buku tidak ditemukan");
