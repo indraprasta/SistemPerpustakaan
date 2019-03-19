@@ -44,5 +44,10 @@ public class Pengembalian {
     public Date getTgl_pengembalian() {
         return tgl_pengembalian;
     }
+
+    @Override
+    public String toString() {
+        return "Pengembalian{" + "id_peminjaman=" + id_peminjaman + ", tgl_pengembalian=" + tgl_pengembalian + '}';
+    }
     
 }

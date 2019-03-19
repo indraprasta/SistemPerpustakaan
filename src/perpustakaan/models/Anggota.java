@@ -18,6 +18,12 @@ public class Anggota extends RecursiveTreeObject<Anggota>{
         this.nama_anggota = nama_anggota;
         this.kelas = kelas;
     }
+
+    public Anggota(int id_anggota, String nama_anggota, String kelas) {
+        this.id_anggota = id_anggota;
+        this.nama_anggota = nama_anggota;
+        this.kelas = kelas;
+    }
     
     public static List<Anggota> getAnggotaList() {
         try(Connection connection = DB.sql2o.open()) {

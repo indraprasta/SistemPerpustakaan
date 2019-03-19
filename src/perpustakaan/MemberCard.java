@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package perpustakaan;
 
 import com.google.zxing.BarcodeFormat;
@@ -19,9 +14,7 @@ import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPCellEvent;
 import com.itextpdf.text.pdf.PdfPTable;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,12 +26,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import perpustakaan.models.Anggota;
 
-/**
- *
- * @author asus
- */
 public class MemberCard {
-     private PdfPTable layout;
+    private PdfPTable layout;
 
     public MemberCard(List<Anggota> anggotaList) {
         //Buat dan atur layout halaman
@@ -168,70 +157,5 @@ public class MemberCard {
 
     public PdfPTable getLayout() {
         return layout;
-    }
-    
-    /*
-    * Sumber https://itextpdf.com/en/resources/faq/technical-support/itext-5/how-define-different-border-types-single-cell
-    */
-    
-    interface LineDash {
-        public void applyLineDash(PdfContentByte canvas);
-    }
-    
-    class SolidLine implements LineDash {
-        @Override
-        public void applyLineDash(PdfContentByte canvas) { }
-    }
-    
-    class CustomBorder implements PdfPCellEvent {
-        protected LineDash left;
-        protected LineDash right;
-        protected LineDash top;
-        protected LineDash bottom;
-        
-        public CustomBorder(LineDash left, LineDash right, LineDash top, LineDash bottom) {
-            this.left = left;
-            this.right = right;
-            this.top = top;
-            this.bottom = bottom;
-        }
-        
-        @Override
-        public void cellLayout(PdfPCell cell, Rectangle position,
-            PdfContentByte[] canvases) {
-            PdfContentByte canvas = canvases[PdfPTable.LINECANVAS];
-            if (top != null) {
-                canvas.saveState();
-                top.applyLineDash(canvas);
-                canvas.moveTo(position.getRight(), position.getTop());
-                canvas.lineTo(position.getLeft(), position.getTop());
-                canvas.stroke();
-                canvas.restoreState();
-            }
-            if (bottom != null) {
-                canvas.saveState();
-                bottom.applyLineDash(canvas);
-                canvas.moveTo(position.getRight(), position.getBottom());
-                canvas.lineTo(position.getLeft(), position.getBottom());
-                canvas.stroke();
-                canvas.restoreState();
-            }
-            if (right != null) {
-                canvas.saveState();
-                right.applyLineDash(canvas);
-                canvas.moveTo(position.getRight(), position.getTop());
-                canvas.lineTo(position.getRight(), position.getBottom());
-                canvas.stroke();
-                canvas.restoreState();
-            }
-            if (left != null) {
-                canvas.saveState();
-                left.applyLineDash(canvas);
-                canvas.moveTo(position.getLeft(), position.getTop());
-                canvas.lineTo(position.getLeft(), position.getBottom());
-                canvas.stroke();
-                canvas.restoreState();
-            }
-        }
     }
 }

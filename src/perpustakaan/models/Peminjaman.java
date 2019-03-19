@@ -39,6 +39,13 @@ public class Peminjaman extends RecursiveTreeObject<Peminjaman> {
         }
     }
     
+    public static List<Peminjaman> peminjamanList() {
+        try(Connection connection = DB.sql2o.open()) {
+            final String query = "SELECT * FROM peminjaman";
+            return connection.createQuery(query).executeAndFetch(Peminjaman.class);
+        }
+    }
+    
     public static List<Peminjaman> peminjamanNotReturnList(Anggota anggota) {
         List<Peminjaman> peminjamanList = peminjamanList(anggota);
         peminjamanList.removeIf(peminjaman -> pengembalian(peminjaman) != null);
@@ -47,6 +54,10 @@ public class Peminjaman extends RecursiveTreeObject<Peminjaman> {
     
     public int keterlambatan() {
         return Days.daysBetween(new LocalDate(expired), new LocalDate(new Date())).getDays();
+    }
+    
+    public int keterlambatan(Pengembalian pengembalian) {
+       return Days.daysBetween(new LocalDate(expired), new LocalDate(pengembalian.getTgl_pengembalian())).getDays();
     }
 
     public int getId_peminjaman() {

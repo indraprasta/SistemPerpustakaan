@@ -2,7 +2,6 @@ package perpustakaan.controllers;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import perpustakaan.models.Anggota;
 import static perpustakaan.models.Anggota.getAnggotaList;
@@ -201,7 +200,7 @@ public class AnggotaController implements Initializable{
         };
         
         labeltask.setOnSucceeded(evt->{
-            Document document = new Document(PageSize.A4);
+            Document document = new Document();
             try {
                 PdfWriter.getInstance(document, new FileOutputStream("out/membercard.pdf"));
             } catch (FileNotFoundException | DocumentException ex) {
