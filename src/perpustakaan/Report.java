@@ -9,7 +9,9 @@ import com.itextpdf.text.pdf.PdfPTable;
 import java.util.Date;
 import java.util.List;
 import perpustakaan.models.Anggota;
+import perpustakaan.models.BayarDenda;
 import perpustakaan.models.Buku;
+import perpustakaan.models.Denda;
 import perpustakaan.models.Kunjungan;
 import perpustakaan.models.Peminjaman;
 import perpustakaan.models.Pengembalian;
@@ -238,7 +240,117 @@ public class Report {
         layout.addCell(cell);
     }
     
-    public void addKunjungan(List<Kunjungan> kunjungan) {
+    public void addKunjungan(List<Kunjungan> kunjunganList) {
+        cell = new PdfPCell(new Phrase("Kunjungan",new Font(Font.FontFamily.UNDEFINED, 12, Font.BOLD)));
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setPaddingTop(20f);
+        cell.setPaddingBottom(10f);
+        layout.addCell(cell);
+        
+        PdfPTable table = new PdfPTable(3);
+        
+        cell = new PdfPCell(new Phrase("Nama",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        
+        cell = new PdfPCell(new Phrase("Kelas",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+          
+        cell = new PdfPCell(new Phrase("Tanggal Kunjungan",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        
+       
+        for (Kunjungan kunjungan : kunjunganList) {
+            Anggota anggota = Anggota.anggota(kunjungan);
+            
+            
+            cell = new PdfPCell(new Phrase(anggota.getNama_anggota()));
+            cell.setPaddingLeft(10f);
+            table.addCell(cell);
+            
+            cell = new PdfPCell(new Phrase(anggota.getKelas()));
+            cell.setPaddingLeft(10f);
+            table.addCell(cell);
+            
+            cell = new PdfPCell(new Phrase(Format.DateFormat(kunjungan.getTgl_kunjungan())));
+            cell.setPaddingLeft(10f);
+            table.addCell(cell);
+            
+        }
+        
+        cell = new PdfPCell(table);
+        layout.addCell(cell);
+        
+    }
+    
+    public void addDenda(List<Denda> dendaList) {
+        cell = new PdfPCell(new Phrase("Denda",new Font(Font.FontFamily.UNDEFINED, 12, Font.BOLD)));
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setPaddingTop(20f);
+        cell.setPaddingBottom(10f);
+        layout.addCell(cell);
+        
+        PdfPTable table = new PdfPTable(3);
+        
+        cell = new PdfPCell(new Phrase("Id Denda",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        
+        cell = new PdfPCell(new Phrase("Tanggal Denda",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+          
+        cell = new PdfPCell(new Phrase("Tipe Denda",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        
+        cell = new PdfPCell(new Phrase("Tarif Denda",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        
+       
+        
+        
+        cell = new PdfPCell(table);
+        layout.addCell(cell);
+        
+    }
+    
+    public void addBayarDenda(List<BayarDenda> bayardendaList) {
+        cell = new PdfPCell(new Phrase("BayarDenda",new Font(Font.FontFamily.UNDEFINED, 12, Font.BOLD)));
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setPaddingTop(20f);
+        cell.setPaddingBottom(10f);
+        layout.addCell(cell);
+        
+        PdfPTable table = new PdfPTable(3);
+        
+        cell = new PdfPCell(new Phrase("Id Bayar",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        
+        cell = new PdfPCell(new Phrase("Id Peminjaman",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+          
+        cell = new PdfPCell(new Phrase("Id Denda",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        
+        cell = new PdfPCell(new Phrase("Total Bayar",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
+        
+       
+        
+        
+        cell = new PdfPCell(table);
+        layout.addCell(cell);
         
     }
     
