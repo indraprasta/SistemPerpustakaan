@@ -36,7 +36,7 @@
                         <DropShadow />
                      </effect></JFXTreeTableView>
                   <JFXTextField fx:id="idAnggotaField" focusColor="#5c8ece" labelFloat="true" layoutX="41.0" layoutY="27.0" onKeyPressed="#keyPressedHandle" prefHeight="25.0" prefWidth="186.0" promptText="Id Anggota" />
-                  <GridPane layoutX="253.0" layoutY="25.0" prefHeight="215.0" prefWidth="256.0">
+                  <GridPane layoutX="253.0" layoutY="25.0" prefHeight="215.0" prefWidth="300.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="153.0" minWidth="10.0" prefWidth="153.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="10.0" prefWidth="103.0" />

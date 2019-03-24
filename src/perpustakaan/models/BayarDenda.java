@@ -1,9 +1,11 @@
 package perpustakaan.models;
 
+import java.util.List;
 import org.sql2o.Connection;
 import perpustakaan.DB;
 
 public class BayarDenda {
+    private int id_bayar;
     private final int id_peminjaman;
     private final int id_denda;
     private final int total_bayar;
@@ -28,6 +30,15 @@ public class BayarDenda {
         }
     }
 
+    public static BayarDenda bayarDenda(Peminjaman peminjaman) {
+        try(Connection connection = DB.sql2o.open()) {
+            final String query = "SELECT * FROM `bayar_denda` WHERE `id_peminjaman` = :id_peminjaman";
+            return connection.createQuery(query)
+                    .bind(peminjaman)
+                    .executeAndFetchFirst(BayarDenda.class);
+        }
+    }
+    
     public int getId_peminjaman() {
         return id_peminjaman;
     }

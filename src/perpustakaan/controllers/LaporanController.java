@@ -7,7 +7,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTreeTableView;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +27,7 @@ import javafx.concurrent.Task;
 import perpustakaan.Report;
 import perpustakaan.models.Anggota;
 import perpustakaan.models.Buku;
+import perpustakaan.models.Kunjungan;
 import perpustakaan.models.Peminjaman;
 
 public class LaporanController {
@@ -36,63 +37,48 @@ public class LaporanController {
 
     @FXML
     private JFXButton back;
-	
-	@FXML
-    private JFXCheckBox cb_Kunjungan;
 
     @FXML
-    private JFXCheckBox cb_Peminjaman;
-
+    private JFXCheckBox anggotaCheckbox;
+    
     @FXML
-    private JFXCheckBox cb_Pengembalian;
-
+    private JFXCheckBox bukuCheckbox;
+    
     @FXML
-    private JFXDatePicker date_laporan;
-
+    private JFXCheckBox peminjamanCheckbox;
+    
     @FXML
-    private JFXButton buttonProses;
-
+    private JFXCheckBox kunjunganCheckbox;
+    
     @FXML
-    private JFXTreeTableView<?> table_Kunjungan;
-
+    private JFXCheckBox dendaCheckbox;
+    
     @FXML
-    private JFXTreeTableView<?> table_Peminjaman;
-
-    @FXML
-    private JFXTreeTableView<?> table_Pengembalian;
-
-    @FXML
-    private JFXButton buttonCetak;
-
-    @FXML
-    void cetakLaporan(ActionEvent event) {
-
-    }
-
-    @FXML
-    void checked_Kunjungan(ActionEvent event) {
-
-    }
-
-    @FXML
-    void checked_Peminjaman(ActionEvent event) {
-
-    }
-
-    @FXML
-    void checked_Pengembalian(ActionEvent event) {
-
-    }
+    private JFXDatePicker dariDatePicker;
 
     @FXML
     void prosesLaporan(ActionEvent event) {
+        LocalDate date = dariDatePicker.getValue();
+        
         Task <Report> reportTask = new Task <Report>() {
             @Override
             protected Report call() throws Exception {
                 Report report = new Report();
-                report.addAnggota(Anggota.getAnggotaList());
-                report.addBuku(Buku.getBukuList());
-                report.addPeminjaman(Peminjaman.peminjamanList());
+                if (anggotaCheckbox.isSelected()) {
+                    report.addAnggota(Anggota.getAnggotaList());
+                }
+                if (bukuCheckbox.isSelected()) {
+                    report.addBuku(Buku.getBukuList());
+                }
+                if (peminjamanCheckbox.isSelected()) {
+                    report.addPeminjaman(Peminjaman.peminjamanList(dariDatePicker.getValue()));
+                }
+                if (kunjunganCheckbox.isSelected()) {
+                    report.addKunjungan(Kunjungan.kunjunganList(dariDatePicker.getValue()));
+                }
+                if (dendaCheckbox.isSelected()) {
+                    report.addBayarDenda(Peminjaman.peminjamanList(dariDatePicker.getValue()));
+                }
                 return report;
             }
         };

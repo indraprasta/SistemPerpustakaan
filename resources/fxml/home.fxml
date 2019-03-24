@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchor" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" stylesheets="/css/bgGambar.css" fx:controller="perpustakaan.controllers.HomeController">
+<AnchorPane fx:id="anchor" prefHeight="600.0" prefWidth="800.0" stylesheets="/css/bgGambar.css" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="perpustakaan.controllers.HomeController">
    <children>
       <GridPane layoutX="190.0" layoutY="99.0" prefHeight="402.0" prefWidth="453.0" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="99.0">
         <columnConstraints>

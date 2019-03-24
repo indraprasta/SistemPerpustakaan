@@ -266,7 +266,6 @@ public class Report {
         for (Kunjungan kunjungan : kunjunganList) {
             Anggota anggota = Anggota.anggota(kunjungan);
             
-            
             cell = new PdfPCell(new Phrase(anggota.getNama_anggota()));
             cell.setPaddingLeft(10f);
             table.addCell(cell);
@@ -286,8 +285,8 @@ public class Report {
         
     }
     
-    public void addDenda(List<Denda> dendaList) {
-        cell = new PdfPCell(new Phrase("Denda",new Font(Font.FontFamily.UNDEFINED, 12, Font.BOLD)));
+    public void addBayarDenda(List<Peminjaman> peminjamanList) {
+        cell = new PdfPCell(new Phrase("Bayar Denda",new Font(Font.FontFamily.UNDEFINED, 12, Font.BOLD)));
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         cell.setPaddingTop(20f);
@@ -296,58 +295,35 @@ public class Report {
         
         PdfPTable table = new PdfPTable(3);
         
-        cell = new PdfPCell(new Phrase("Id Denda",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell = new PdfPCell(new Phrase("Nama Anggota",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
         
-        cell = new PdfPCell(new Phrase("Tanggal Denda",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell);
-          
         cell = new PdfPCell(new Phrase("Tipe Denda",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        
-        cell = new PdfPCell(new Phrase("Tarif Denda",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell);
-        
-       
-        
-        
-        cell = new PdfPCell(table);
-        layout.addCell(cell);
-        
-    }
-    
-    public void addBayarDenda(List<BayarDenda> bayardendaList) {
-        cell = new PdfPCell(new Phrase("BayarDenda",new Font(Font.FontFamily.UNDEFINED, 12, Font.BOLD)));
-        cell.setBorder(Rectangle.NO_BORDER);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        cell.setPaddingTop(20f);
-        cell.setPaddingBottom(10f);
-        layout.addCell(cell);
-        
-        PdfPTable table = new PdfPTable(3);
-        
-        cell = new PdfPCell(new Phrase("Id Bayar",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell);
-        
-        cell = new PdfPCell(new Phrase("Id Peminjaman",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell);
           
-        cell = new PdfPCell(new Phrase("Id Denda",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
+        cell = new PdfPCell(new Phrase("Tarif",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        
-        cell = new PdfPCell(new Phrase("Total Bayar",new Font(Font.FontFamily.UNDEFINED, 10, Font.NORMAL)));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell);
-        
        
-        
+        for (Peminjaman peminjaman : peminjamanList) {
+            Anggota anggota = Anggota.anggota(peminjaman);
+            BayarDenda bayarDenda = BayarDenda.bayarDenda(peminjaman);
+            Denda denda = Denda.denda(bayarDenda.getId_denda());
+            
+            cell = new PdfPCell(new Phrase(anggota.getNama_anggota()));
+            cell.setPaddingLeft(10f);
+            table.addCell(cell);
+            
+            cell = new PdfPCell(new Phrase(denda.getTipe_denda()));
+            cell.setPaddingLeft(10f);
+            table.addCell(cell);
+            
+            cell = new PdfPCell(new Phrase(Rupiah.format(bayarDenda.getTotal_bayar())));
+            cell.setPaddingLeft(10f);
+            table.addCell(cell);
+        }
         
         cell = new PdfPCell(table);
         layout.addCell(cell);

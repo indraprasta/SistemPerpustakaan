@@ -31,6 +31,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.input.KeyCode;
 import static perpustakaan.Format.DateFormat;
+import perpustakaan.Rupiah;
 import perpustakaan.models.Anggota;
 
 import static perpustakaan.models.Anggota.anggota;
@@ -179,7 +180,7 @@ public class PengembalianController implements Initializable{
     }
     
     private void hitungDenda(int total_denda) {
-        totalBayarLabel.setText(String.valueOf(this.total_denda += total_denda));
+        totalBayarLabel.setText(Rupiah.format(this.total_denda += total_denda));
     }
     
     private void resetForm() {

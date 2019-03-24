@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
-import org.joda.time.ReadableInstant;
 import org.sql2o.Connection;
 import perpustakaan.DB;
 import static perpustakaan.models.Pengembalian.pengembalian;
@@ -43,6 +42,15 @@ public class Peminjaman extends RecursiveTreeObject<Peminjaman> {
         try(Connection connection = DB.sql2o.open()) {
             final String query = "SELECT * FROM peminjaman";
             return connection.createQuery(query).executeAndFetch(Peminjaman.class);
+        }
+    }
+    
+    public static List<Peminjaman> peminjamanList(java.time.LocalDate dari) {
+        try(Connection connection = DB.sql2o.open()) {
+            final String query = "SELECT * FROM peminjaman WHERE `tgl_peminjaman` >= :dari";
+            return connection.createQuery(query)
+                    .addParameter("dari", dari)
+                    .executeAndFetch(Peminjaman.class);
         }
     }
     

@@ -3,14 +3,13 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" stylesheets="/css/bgGambar.css" fx:controller="perpustakaan.controllers.LaporanController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="/css/bgGambar.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="perpustakaan.controllers.LaporanController">
     <children>
         <SplitPane dividerPositions="0.1" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0">
             <items>
@@ -26,28 +25,17 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <Text layoutX="346.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lihat Laporan Untuk" />
-                  <JFXCheckBox fx:id="cb_Kunjungan" layoutX="222.0" layoutY="111.0" onAction="#checked_Kunjungan" text="Daftar Kunjungan" />
-                  <JFXCheckBox fx:id="cb_Peminjaman" layoutX="355.0" layoutY="111.0" onAction="#checked_Peminjaman" text="Peminjaman" />
-                  <JFXCheckBox fx:id="cb_Pengembalian" layoutX="475.0" layoutY="111.0" onAction="#checked_Pengembalian" text="Pengembalian" />
-                  <JFXDatePicker fx:id="date_laporan" defaultColor="#5c8ece" layoutX="340.0" layoutY="32.0" promptText="Pilih Tanggal" />
-                  <JFXButton fx:id="buttonProses" buttonType="RAISED" layoutX="374.0" layoutY="155.0" onAction="#prosesLaporan" style="-fx-background-color: #5c8ece;" text="Proses" textFill="WHITE" />
-                  <JFXTreeTableView fx:id="table_Kunjungan" layoutX="14.0" layoutY="191.0" prefHeight="269.0" prefWidth="248.0">
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </JFXTreeTableView>
-                  <JFXTreeTableView fx:id="table_Peminjaman" layoutX="275.0" layoutY="191.0" prefHeight="269.0" prefWidth="248.0">
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </JFXTreeTableView>
-                  <JFXTreeTableView fx:id="table_Pengembalian" layoutX="534.0" layoutY="191.0" prefHeight="269.0" prefWidth="248.0">
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </JFXTreeTableView>
-                  <JFXButton fx:id="buttonCetak" buttonType="RAISED" layoutX="375.0" layoutY="475.0" onAction="#cetakLaporan" style="-fx-background-color: #5c8ece;" text="Cetak" textFill="WHITE" />
+                  <JFXDatePicker fx:id="dariDatePicker" defaultColor="#5c8ece" layoutX="216.0" layoutY="176.0" promptText="Dari" AnchorPane.leftAnchor="316.0" AnchorPane.rightAnchor="316.0"  />
+                  <HBox layoutX="181.0" layoutY="221.0" prefHeight="25.0" prefWidth="356.0" spacing="20.0">
+                     <children>
+                        <JFXCheckBox fx:id="anggotaCheckbox" text="Anggota" />
+                        <JFXCheckBox fx:id="bukuCheckbox" text="Buku" />
+                        <JFXCheckBox fx:id="peminjamanCheckbox" text="Peminjaman" />
+                        <JFXCheckBox fx:id="kunjunganCheckbox" text="Kunjungan" />
+                        <JFXCheckBox fx:id="dendaCheckbox" text="Denda" />
+                     </children>
+                  </HBox>
+                  <JFXButton buttonType="RAISED" layoutX="356.0" layoutY="274.0" onAction="#prosesLaporan" style="-fx-background-color: #5c8ece;" text="Proses" textFill="WHITE" AnchorPane.leftAnchor="356.0" AnchorPane.rightAnchor="380.0" />
                </children></AnchorPane>
             </items>
         </SplitPane>

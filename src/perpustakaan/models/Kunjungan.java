@@ -1,6 +1,7 @@
 package perpustakaan.models;
 
 import java.util.Date;
+import java.util.List;
 import org.sql2o.Connection;
 import perpustakaan.DB;
 
@@ -22,6 +23,15 @@ public class Kunjungan {
         }
     }
 
+    public static List<Kunjungan> kunjunganList(java.time.LocalDate dari) {
+        try(Connection connection = DB.sql2o.open()) {
+            final String query = "SELECT * FROM kunjungan WHERE `tgl_kunjungan` >= :dari";
+            return connection.createQuery(query)
+                    .addParameter("dari", dari)
+                    .executeAndFetch(Kunjungan.class);
+        }
+    }
+    
     public int getId_kunjungan() {
         return id_kunjungan;
     }
