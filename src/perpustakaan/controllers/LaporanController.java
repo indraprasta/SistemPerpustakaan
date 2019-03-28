@@ -64,12 +64,6 @@ public class LaporanController {
             @Override
             protected Report call() throws Exception {
                 Report report = new Report();
-                if (anggotaCheckbox.isSelected()) {
-                    report.addAnggota(Anggota.getAnggotaList());
-                }
-                if (bukuCheckbox.isSelected()) {
-                    report.addBuku(Buku.getBukuList());
-                }
                 if (peminjamanCheckbox.isSelected()) {
                     report.addPeminjaman(Peminjaman.peminjamanList(dariDatePicker.getValue()));
                 }
@@ -79,12 +73,18 @@ public class LaporanController {
                 if (dendaCheckbox.isSelected()) {
                     report.addBayarDenda(Peminjaman.peminjamanList(dariDatePicker.getValue()));
                 }
+                if (anggotaCheckbox.isSelected()) {
+                    report.addAnggota(Anggota.getAnggotaList());
+                }
+                if (bukuCheckbox.isSelected()) {
+                    report.addBuku(Buku.getBukuList());
+                }
                 return report;
             }
         };
         
         reportTask.setOnSucceeded(evt->{
-            Document document = new Document(PageSize.A4);
+            Document document = new Document();
             try {
                 PdfWriter.getInstance(document, new FileOutputStream("out/report.pdf"));
             } catch (FileNotFoundException | DocumentException ex) {

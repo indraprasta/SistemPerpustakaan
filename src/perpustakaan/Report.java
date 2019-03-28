@@ -95,7 +95,7 @@ public class Report {
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         cell.setPaddingTop(20f);
-        cell.setPaddingBottom(10f);
+//        cell.setPaddingBottom(2f);
         layout.addCell(cell);
         
         PdfPTable table = new PdfPTable(5);

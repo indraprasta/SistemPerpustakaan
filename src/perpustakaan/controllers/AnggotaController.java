@@ -100,6 +100,7 @@ public class AnggotaController implements Initializable{
             if(angg.updateAnggota()>0){
             table_anggota.refresh();
             resetForm();
+            resetbutton();
             }
             else {
             alert.close();
@@ -114,6 +115,14 @@ public class AnggotaController implements Initializable{
         }
     }
      
+    void resetbutton(){
+        buttonSimpan.setDisable(false);
+            buttonEdit.setDisable(true);
+            buttonHapus.setDisable(true);
+            buttonPrint.setDisable(true);
+            buttonBatal.setDisable(true);
+    }
+    
     @FXML
     void hapusAnggota(ActionEvent event) {
         int index = table_anggota.getSelectionModel().getSelectedIndex();
@@ -132,6 +141,7 @@ public class AnggotaController implements Initializable{
                 keluar.setContentText("data berhasil di hapus");
                 keluar.showAndWait();
                 resetForm();
+                resetbutton();
             } else {
                 alert.close();
             }
@@ -152,6 +162,11 @@ public class AnggotaController implements Initializable{
             if(angg.createAnggota()>0){
                 anggotaList.setAll(getAnggotaList());
                 resetForm();
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Anggota");
+                alert.setContentText("Data anggota berhasil disimpan");
+                alert.show();
+                resetbutton();
             }
         } else {
             Alert alert = new Alert(AlertType.ERROR);
